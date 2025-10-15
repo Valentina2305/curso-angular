@@ -1,0 +1,69 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode ? 'Editar Inscripción' : 'Nueva Inscripción' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="inscripcionForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Alumno</mat-label>
+          <mat-select formControlName="alumnoId">
+            <mat-option *ngFor="let alumno of alumnos" [value]="alumno.id">
+              {{ alumno.nombre }} {{ alumno.apellido }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="inscripcionForm.get('alumnoId')?.invalid">
+            {{ getErrorMessage('alumnoId') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Curso</mat-label>
+          <mat-select formControlName="cursoId">
+            <mat-option *ngFor="let curso of cursos" [value]="curso.id">
+              {{ curso.nombre }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="inscripcionForm.get('cursoId')?.invalid">
+            {{ getErrorMessage('cursoId') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de Inscripción</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaInscripcion">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="inscripcionForm.get('fechaInscripcion')?.invalid">
+            {{ getErrorMessage('fechaInscripcion') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option *ngFor="let estado of estados" [value]="estado">
+              {{ estado }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="inscripcionForm.get('estado')?.invalid">
+            {{ getErrorMessage('estado') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="inscripcionForm.invalid">
+          {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button mat-raised-button type="button" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

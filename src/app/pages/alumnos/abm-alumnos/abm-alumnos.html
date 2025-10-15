@@ -1,0 +1,65 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode ? 'Editar Alumno' : 'Nuevo Alumno' }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="alumnoForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" placeholder="Ingrese el nombre">
+          <mat-error *ngIf="alumnoForm.get('nombre')?.invalid">
+            {{ getErrorMessage('nombre') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="apellido" placeholder="Ingrese el apellido">
+          <mat-error *ngIf="alumnoForm.get('apellido')?.invalid">
+            {{ getErrorMessage('apellido') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="ejemplo@email.com">
+          <mat-error *ngIf="alumnoForm.get('email')?.invalid">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Edad</mat-label>
+          <input matInput formControlName="edad" type="number" placeholder="Ingrese la edad">
+          <mat-error *ngIf="alumnoForm.get('edad')?.invalid">
+            {{ getErrorMessage('edad') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de Inscripción</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaInscripcion">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="alumnoForm.get('fechaInscripcion')?.invalid">
+            {{ getErrorMessage('fechaInscripcion') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="alumnoForm.invalid">
+          {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button mat-raised-button type="button" (click)="onCancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

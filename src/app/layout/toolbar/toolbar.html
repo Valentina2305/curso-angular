@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ title }}</span>
+  <span class="spacer"></span>
+  <mat-form-field appearance="fill" class="rol-selector">
+    <mat-label>Rol</mat-label>
+    <mat-select [value]="rolActual" (selectionChange)="cambiarRol($event.value)">
+      <mat-option value="administrador">Administrador</mat-option>
+      <mat-option value="usuario">Usuario</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-toolbar>
