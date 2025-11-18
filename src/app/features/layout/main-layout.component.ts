@@ -6,6 +6,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -17,7 +20,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatToolbarModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule,
+    MatDividerModule
   ],
   template: `
     <mat-sidenav-container class="sidenav-container">
@@ -38,6 +43,12 @@ import { MatButtonModule } from '@angular/material/button';
             <mat-icon matListItemIcon>assignment</mat-icon>
             <span matListItemTitle>Inscripciones</span>
           </a>
+          @if (authService.isAdmin()) {
+            <a mat-list-item routerLink="/usuarios" routerLinkActive="active-link">
+              <mat-icon matListItemIcon>people</mat-icon>
+              <span matListItemTitle>Usuarios</span>
+            </a>
+          }
         </mat-nav-list>
       </mat-sidenav>
 
@@ -47,6 +58,23 @@ import { MatButtonModule } from '@angular/material/button';
             <mat-icon>menu</mat-icon>
           </button>
           <span>{{ title() }}</span>
+          <span class="spacer"></span>
+          <button mat-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+            <span>{{ authService.currentUser()?.nombre }}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <div class="user-info">
+              <div class="user-name">{{ authService.currentUser()?.nombre }}</div>
+              <div class="user-role">{{ authService.currentUser()?.role === 'ADMIN' ? 'Administrador' : 'Usuario' }}</div>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Cerrar Sesión</span>
+            </button>
+          </mat-menu>
         </mat-toolbar>
 
         <div class="content">
@@ -102,8 +130,38 @@ import { MatButtonModule } from '@angular/material/button';
     .active-link mat-icon {
       color: #1976d2;
     }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    .user-info {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .user-name {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: #666;
+    }
+
+    mat-divider {
+      margin: 8px 0;
+    }
   `]
 })
 export class MainLayoutComponent {
   title = signal('Sistema de Gestión de Cursos');
+
+  constructor(protected authService: AuthService) {}
+
+  logout(): void {
+    this.authService.logout();
+  }
 }

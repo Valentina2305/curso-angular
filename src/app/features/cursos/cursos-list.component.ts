@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CursosService } from './cursos.service';
 import { Curso } from './curso.model';
 import { CursoFormComponent } from './curso-form.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-cursos-list',
@@ -26,12 +27,14 @@ import { CursoFormComponent } from './curso-form.component';
         <mat-card-title>Gestión de Cursos</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="actions">
-          <button mat-raised-button color="primary" (click)="openDialog()">
-            <mat-icon>add</mat-icon>
-            Nuevo Curso
-          </button>
-        </div>
+        @if (authService.isAdmin()) {
+          <div class="actions">
+            <button mat-raised-button color="primary" (click)="openDialog()">
+              <mat-icon>add</mat-icon>
+              Nuevo Curso
+            </button>
+          </div>
+        }
 
         <table mat-table [dataSource]="cursos()" class="mat-elevation-z8">
           <ng-container matColumnDef="id">
@@ -64,17 +67,19 @@ import { CursoFormComponent } from './curso-form.component';
             <td mat-cell *matCellDef="let curso">{{ curso.profesor }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let curso">
-              <button mat-icon-button color="primary" (click)="editCurso(curso)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" (click)="deleteCurso(curso.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
+          @if (authService.isAdmin()) {
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef>Acciones</th>
+              <td mat-cell *matCellDef="let curso">
+                <button mat-icon-button color="primary" (click)="editCurso(curso)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteCurso(curso.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+          }
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -103,12 +108,17 @@ import { CursoFormComponent } from './curso-form.component';
 })
 export class CursosListComponent implements OnInit {
   cursos = signal<Curso[]>([]);
-  displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'duracionHoras', 'cupoMaximo', 'profesor', 'acciones'];
+  displayedColumns: string[] = [];
 
   constructor(
     private cursosService: CursosService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    protected authService: AuthService
+  ) {
+    this.displayedColumns = this.authService.isAdmin()
+      ? ['id', 'nombre', 'descripcion', 'duracionHoras', 'cupoMaximo', 'profesor', 'acciones']
+      : ['id', 'nombre', 'descripcion', 'duracionHoras', 'cupoMaximo', 'profesor'];
+  }
 
   ngOnInit(): void {
     this.cursosService.getCursos().subscribe(cursos => {

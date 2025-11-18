@@ -9,6 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { InscripcionesService } from './inscripciones.service';
 import { Inscripcion } from './inscripcion.model';
 import { InscripcionFormComponent } from './inscripcion-form.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-inscripciones-list',
@@ -81,9 +82,11 @@ import { InscripcionFormComponent } from './inscripcion-form.component';
           <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let inscripcion">
-              <button mat-icon-button color="primary" (click)="editInscripcion(inscripcion)">
-                <mat-icon>edit</mat-icon>
-              </button>
+              @if (authService.isAdmin()) {
+                <button mat-icon-button color="primary" (click)="editInscripcion(inscripcion)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
               <button mat-icon-button color="warn" (click)="deleteInscripcion(inscripcion.id)">
                 <mat-icon>delete</mat-icon>
               </button>
@@ -136,7 +139,8 @@ export class InscripcionesListComponent implements OnInit {
 
   constructor(
     private inscripcionesService: InscripcionesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    protected authService: AuthService
   ) {}
 
   ngOnInit(): void {
