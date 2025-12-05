@@ -121,9 +121,7 @@ export class CursosListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cursosService.getCursos().subscribe(cursos => {
-      this.cursos.set(cursos);
-    });
+    this.loadCursos();
   }
 
   openDialog(curso?: Curso): void {
@@ -135,9 +133,13 @@ export class CursosListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.id) {
-          this.cursosService.updateCurso(result.id, result);
+          this.cursosService.updateCurso(result.id, result).subscribe(() => {
+            this.loadCursos();
+          });
         } else {
-          this.cursosService.addCurso(result);
+          this.cursosService.addCurso(result).subscribe(() => {
+            this.loadCursos();
+          });
         }
       }
     });
@@ -149,7 +151,15 @@ export class CursosListComponent implements OnInit {
 
   deleteCurso(id: number): void {
     if (confirm('¿Está seguro de eliminar este curso?')) {
-      this.cursosService.deleteCurso(id);
+      this.cursosService.deleteCurso(id).subscribe(() => {
+        this.loadCursos();
+      });
     }
+  }
+
+  private loadCursos(): void {
+    this.cursosService.getCursos().subscribe(cursos => {
+      this.cursos.set(cursos);
+    });
   }
 }

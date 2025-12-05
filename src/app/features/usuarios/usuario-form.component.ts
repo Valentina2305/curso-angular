@@ -46,6 +46,16 @@ import { User, UserRole } from '../../core/models/user.model';
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dirección</mat-label>
+          <input matInput [(ngModel)]="usuario.direccion" name="direccion" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Teléfono</mat-label>
+          <input matInput [(ngModel)]="usuario.telefono" name="telefono" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Rol</mat-label>
           <mat-select [(ngModel)]="usuario.role" name="role" required>
             <mat-option [value]="UserRole.ADMIN">Administrador</mat-option>
@@ -94,6 +104,8 @@ export class UsuarioFormComponent {
       password: '',
       nombre: '',
       email: '',
+      direccion: '',
+      telefono: '',
       role: UserRole.USER
     };
   }
@@ -104,6 +116,8 @@ export class UsuarioFormComponent {
       this.usuario.password &&
       this.usuario.nombre &&
       this.usuario.email &&
+      this.usuario.direccion &&
+      this.usuario.telefono &&
       this.usuario.role
     );
   }

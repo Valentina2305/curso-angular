@@ -189,12 +189,17 @@ export class LoginComponent {
       return;
     }
 
-    const success = this.authService.login(this.username, this.password);
-
-    if (success) {
-      this.router.navigate(['/']);
-    } else {
-      this.errorMessage.set('Usuario o contraseña incorrectos');
-    }
+    this.authService.login(this.username, this.password).subscribe({
+      next: (success) => {
+        if (success) {
+          this.router.navigate(['/']);
+        } else {
+          this.errorMessage.set('Usuario o contraseña incorrectos');
+        }
+      },
+      error: () => {
+        this.errorMessage.set('Error al conectar con el servidor');
+      }
+    });
   }
 }

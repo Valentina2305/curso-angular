@@ -144,9 +144,7 @@ export class InscripcionesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.inscripcionesService.getInscripciones().subscribe(inscripciones => {
-      this.inscripciones.set(inscripciones);
-    });
+    this.loadInscripciones();
   }
 
   openDialog(inscripcion?: Inscripcion): void {
@@ -158,9 +156,13 @@ export class InscripcionesListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.id) {
-          this.inscripcionesService.updateInscripcion(result.id, result);
+          this.inscripcionesService.updateInscripcion(result.id, result).subscribe(() => {
+            this.loadInscripciones();
+          });
         } else {
-          this.inscripcionesService.addInscripcion(result);
+          this.inscripcionesService.addInscripcion(result).subscribe(() => {
+            this.loadInscripciones();
+          });
         }
       }
     });
@@ -172,7 +174,15 @@ export class InscripcionesListComponent implements OnInit {
 
   deleteInscripcion(id: number): void {
     if (confirm('¿Está seguro de eliminar esta inscripción?')) {
-      this.inscripcionesService.deleteInscripcion(id);
+      this.inscripcionesService.deleteInscripcion(id).subscribe(() => {
+        this.loadInscripciones();
+      });
     }
+  }
+
+  private loadInscripciones(): void {
+    this.inscripcionesService.getInscripciones().subscribe(inscripciones => {
+      this.inscripciones.set(inscripciones);
+    });
   }
 }

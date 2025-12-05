@@ -3,6 +3,7 @@ export interface Curso {
   nombre: string;
   descripcion: string;
   duracionHoras: number;
+  cantidadClases: number;
   fechaInicio: Date;
   fechaFin: Date;
   cupoMaximo: number;

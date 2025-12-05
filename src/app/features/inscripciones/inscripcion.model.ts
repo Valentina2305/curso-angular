@@ -5,6 +5,7 @@ export interface Inscripcion {
   cursoId: number;
   cursoNombre?: string;
   fechaInscripcion: Date;
+  usuarioInscriptorId: number;
   estado: 'Activa' | 'Completada' | 'Cancelada';
   calificacion?: number;
 }

@@ -121,9 +121,7 @@ export class AlumnosListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.alumnosService.getAlumnos().subscribe(alumnos => {
-      this.alumnos.set(alumnos);
-    });
+    this.loadAlumnos();
   }
 
   openDialog(alumno?: Alumno): void {
@@ -135,9 +133,13 @@ export class AlumnosListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (result.id) {
-          this.alumnosService.updateAlumno(result.id, result);
+          this.alumnosService.updateAlumno(result.id, result).subscribe(() => {
+            this.loadAlumnos();
+          });
         } else {
-          this.alumnosService.addAlumno(result);
+          this.alumnosService.addAlumno(result).subscribe(() => {
+            this.loadAlumnos();
+          });
         }
       }
     });
@@ -149,7 +151,15 @@ export class AlumnosListComponent implements OnInit {
 
   deleteAlumno(id: number): void {
     if (confirm('¿Está seguro de eliminar este alumno?')) {
-      this.alumnosService.deleteAlumno(id);
+      this.alumnosService.deleteAlumno(id).subscribe(() => {
+        this.loadAlumnos();
+      });
     }
+  }
+
+  private loadAlumnos(): void {
+    this.alumnosService.getAlumnos().subscribe(alumnos => {
+      this.alumnos.set(alumnos);
+    });
   }
 }

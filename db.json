@@ -1,0 +1,120 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "role": "ADMIN",
+      "nombre": "Administrador del Sistema",
+      "email": "admin@cursos.com",
+      "direccion": "Av. Siempre Viva 123",
+      "telefono": "1234567890"
+    },
+    {
+      "id": 2,
+      "username": "usuario",
+      "password": "user123",
+      "role": "USER",
+      "nombre": "Usuario Regular",
+      "email": "usuario@cursos.com",
+      "direccion": "Calle Falsa 456",
+      "telefono": "0987654321"
+    }
+  ],
+  "alumnos": [
+    {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Pérez",
+      "email": "juan.perez@email.com",
+      "fechaNacimiento": "1995-05-15",
+      "telefono": "1122334455",
+      "dni": "12345678",
+      "perfil": "Desarrollador"
+    },
+    {
+      "id": 2,
+      "nombre": "María",
+      "apellido": "González",
+      "email": "maria.gonzalez@email.com",
+      "fechaNacimiento": "1998-08-22",
+      "telefono": "2233445566",
+      "dni": "23456789",
+      "perfil": "IT"
+    },
+    {
+      "id": 3,
+      "nombre": "Carlos",
+      "apellido": "López",
+      "email": "carlos.lopez@email.com",
+      "fechaNacimiento": "1992-03-10",
+      "telefono": "3344556677",
+      "dni": "34567890",
+      "perfil": "Usuario Final"
+    }
+  ],
+  "cursos": [
+    {
+      "id": 1,
+      "nombre": "Angular Avanzado",
+      "descripcion": "Curso completo de Angular con mejores prácticas",
+      "duracionHoras": 40,
+      "cantidadClases": 10,
+      "fechaInicio": "2024-01-15",
+      "fechaFin": "2024-03-15",
+      "cupoMaximo": 25,
+      "profesor": "Dr. Roberto Martínez"
+    },
+    {
+      "id": 2,
+      "nombre": "TypeScript desde Cero",
+      "descripcion": "Fundamentos de TypeScript para principiantes",
+      "duracionHoras": 30,
+      "cantidadClases": 8,
+      "fechaInicio": "2024-02-01",
+      "fechaFin": "2024-03-30",
+      "cupoMaximo": 30,
+      "profesor": "Ing. Laura Fernández"
+    },
+    {
+      "id": 3,
+      "nombre": "RxJS y Programación Reactiva",
+      "descripcion": "Domina RxJS y la programación reactiva",
+      "duracionHoras": 25,
+      "cantidadClases": 6,
+      "fechaInicio": "2024-03-01",
+      "fechaFin": "2024-04-15",
+      "cupoMaximo": 20,
+      "profesor": "Mg. Pedro Sánchez"
+    }
+  ],
+  "inscripciones": [
+    {
+      "id": 1,
+      "alumnoId": 1,
+      "cursoId": 1,
+      "fechaInscripcion": "2024-01-10",
+      "usuarioInscriptorId": 1,
+      "estado": "Activa",
+      "calificacion": null
+    },
+    {
+      "id": 2,
+      "alumnoId": 2,
+      "cursoId": 1,
+      "fechaInscripcion": "2024-01-12",
+      "usuarioInscriptorId": 2,
+      "estado": "Activa",
+      "calificacion": null
+    },
+    {
+      "id": 3,
+      "alumnoId": 1,
+      "cursoId": 2,
+      "fechaInscripcion": "2024-01-20",
+      "usuarioInscriptorId": 1,
+      "estado": "Completada",
+      "calificacion": 9
+    }
+  ]
+}

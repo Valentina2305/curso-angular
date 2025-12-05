@@ -187,7 +187,9 @@ export class UsuariosListComponent implements OnInit {
   }
 
   loadUsuarios(): void {
-    this.usuarios.set(this.authService.getUsers());
+    this.authService.getUsers().subscribe(usuarios => {
+      this.usuarios.set(usuarios);
+    });
   }
 
   openDialog(usuario?: User): void {
@@ -199,19 +201,23 @@ export class UsuariosListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (usuario) {
-          this.authService.updateUser(result);
+          this.authService.updateUser(result).subscribe(() => {
+            this.loadUsuarios();
+          });
         } else {
-          this.authService.addUser(result);
+          this.authService.addUser(result).subscribe(() => {
+            this.loadUsuarios();
+          });
         }
-        this.loadUsuarios();
       }
     });
   }
 
   deleteUsuario(id: number): void {
     if (confirm('¿Está seguro de eliminar este usuario?')) {
-      this.authService.deleteUser(id);
-      this.loadUsuarios();
+      this.authService.deleteUser(id).subscribe(() => {
+        this.loadUsuarios();
+      });
     }
   }
 }

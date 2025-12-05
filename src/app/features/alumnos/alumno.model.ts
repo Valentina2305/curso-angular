@@ -1,3 +1,10 @@
+export enum AlumnoPerfil {
+  DESARROLLADOR = 'Desarrollador',
+  IT = 'IT',
+  USUARIO_FINAL = 'Usuario Final',
+  OTRO = 'Otro'
+}
+
 export interface Alumno {
   id: number;
   nombre: string;
@@ -6,4 +13,5 @@ export interface Alumno {
   fechaNacimiento: Date;
   telefono: string;
   dni: string;
+  perfil: AlumnoPerfil;
 }
